@@ -1,0 +1,38 @@
+Flow Homework 9
+
+1. Restore SQL file yang telah disediakan
+2. Buat RestFul API GET, POST, DELETE, PUT untuk setiap Tables (User, Movies)
+3. Buat API login dan register 
+4. Buat authentication dan authorization
+5. Implementasi authentication untuk setiap API yang telah dibuat
+6. Implementasi authorization di salah satu API yang dibuat (terserah)
+7. Implementasi pagination dengan limit 10 (Tiap GET users dan GET movies)
+8. Buat dokumentasi API dengan swagger
+9. Implementasi logging server dengan morgan
+
+
+Package yang digunakan
+
+- jsonwebtoken
+- express
+- pg
+- bcrypt
+- swagger
+- morgan
+
+
+-- Flow register, login dan authentication
+
+1. Saat Register
+
+  encrypt password menggunakan bcrypt package, dan masukkan ke database
+
+2. Saat login
+
+compare plainPassword yang dikirim dari postman, dengan password yang ada di database menggunakan bcrypt
+
+Kalo OK, buat accessToken menggunakan package jwt
+
+3. Saat authentication
+
+decode token yang dikirim dari headers [Postman]
