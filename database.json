@@ -1,0 +1,9 @@
+{
+  "dev": {
+    "driver": "pg",
+    "user": "yumana",
+    "password": "yumakeren",
+    "host": "localhost",
+    "database": "hwrakamin"
+  }
+}

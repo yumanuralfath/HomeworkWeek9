@@ -1,4 +1,5 @@
 import users from "../models/users.js";
+import bcrypt from "bcrypt";
 
 export const getUsers = async (req, res) => {
   try {
@@ -28,14 +29,26 @@ export const getUsersById = async (req, res) => {
 
 export const createUsers = async (req, res) => {
   try {
-    const { email, gender, password, role } = req.body;
-    const CreateUser = await users.create({
-      email,
-      gender,
-      password,
-      role,
-    });
-    res.status(201).json({ msg: "User created successfully" });
+    const { email, gender, Password, confirmPassword, role } = req.body;
+    //check password and confirm password same
+    if (Password !== confirmPassword) {
+      res.status(400).json({ msg: "Password !== confirmPassword" });
+    } else {
+      const saltRounds = 8;
+      bcrypt
+        .hash(Password, saltRounds)
+        .then((hash) => {
+          const password = hash;
+          users.create({
+            email,
+            gender,
+            password,
+            role,
+          });
+          res.status(201).json({ msg: "Register User successfully" });
+        })
+        .catch((err) => console.error(err.message));
+    }
   } catch (error) {
     res.status(500).json({ msg: "internal server error" });
   }

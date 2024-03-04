@@ -35,4 +35,4 @@ Kalo OK, buat accessToken menggunakan package jwt
 
 3. Saat authentication
 
-decode token yang dikirim dari headers [Postman]
+decode token yang dikirim dari headers Postman
