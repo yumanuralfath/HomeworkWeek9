@@ -5,6 +5,7 @@ import "dotenv";
 
 const port = process.env.PORT || 2070;
 const app = express();
+app.use(express.json());
 app.use(router);
 
 try {

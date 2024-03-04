@@ -2,12 +2,13 @@ import { Sequelize, DataTypes } from "sequelize";
 import db from "../config/database.js";
 
 const movies = db.define(
-  'movies',
+  "movies",
   {
     id: {
       type: DataTypes.INTEGER,
       allowNull: true,
       primaryKey: true,
+      autoIncrement: true,
     },
     title: {
       type: DataTypes.STRING(150),
