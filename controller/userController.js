@@ -33,6 +33,11 @@ export const createUsers = async (req, res) => {
     //check password and confirm password same
     if (Password !== confirmPassword) {
       res.status(400).json({ msg: "Password !== confirmPassword" });
+    }
+    //check password not empty
+    if (Password === "" || Password === null) {
+      res.status(400).json({ msg: "empty password not allowed" });
+      //hash password and send to database
     } else {
       const saltRounds = 8;
       bcrypt
