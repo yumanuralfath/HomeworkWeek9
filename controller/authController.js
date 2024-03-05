@@ -75,26 +75,36 @@ export const login = async (req, res) => {
 
 //check account for auth
 export const me = async (req, res) => {
-  if (!req.session.token) {
-    return res.status(401).json({ msg: "Please Login again" });
+  try {
+    if (!req.session.token) {
+      return res.status(401).json({ msg: "Please Login again" });
+    }
+    const user = await users.findOne({
+      attributes: ["id", "email", "gender", "role"],
+      where: {
+        id: req.session.userID,
+      },
+    });
+    if (!user) {
+      return res
+        .status(404)
+        .json({ msg: "User not found , Please Login Again" });
+    }
+    res.status(200).json(user);
+  } catch (error) {
+    res.status(500).json({ msg: "Internal Server Error" });
   }
-  const user = await users.findOne({
-    attributes: ["id", "email", "gender", "role"],
-    where: {
-      id: req.session.userID,
-    },
-  });
-  if (!user) {
-    return res.status(404).json({ msg: "User not found , Please Login Again" });
-  }
-  res.status(200).json(user);
 };
 
 //LogOUT For Destroy Session
 export const logout = (req, res) => {
-  req.session.destroy((err) => {
-    if (err)
-      return res.status(400).json({ msg: "Log Out Failed , Welcome To SAO" });
-    res.status(200).json({ msg: "Log Out Success" });
-  });
+  try {
+    req.session.destroy((err) => {
+      if (err)
+        return res.status(400).json({ msg: "Log Out Failed , Welcome To SAO" });
+      res.status(200).json({ msg: "Log Out Success" });
+    });
+  } catch (error) {
+    res.status(500).json({ msg: "Internal Server Error" });
+  }
 };

@@ -1,10 +1,14 @@
 import users from "../models/users.js";
 import bcrypt from "bcrypt";
+import paginateResult from "./Pagination.js";
 
 export const getUsers = async (req, res) => {
   try {
     const allUser = await users.findAll();
-    res.status(200).json(allUser);
+    const page = parseInt(req.query.page) || 1; //parse page default page 1
+    const limit = parseInt(req.query.limit) || 10; //parse limit default 10
+    const paginatedResults = paginateResult(page, limit, allUser);
+    res.status(200).json(paginatedResults);
   } catch (error) {
     console.error(error);
     res.status(500).json({ msg: "User not found" });

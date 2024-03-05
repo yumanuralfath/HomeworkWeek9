@@ -1,10 +1,14 @@
 import movies from "../models/movies.js";
+import paginateResult from "./Pagination.js";
 
 //get all movies
 export const getMovies = async (req, res) => {
   try {
     const response = await movies.findAll();
-    res.status(200).json(response);
+    const page = parseInt(req.query.page) || 1; //parse page default page 1
+    const limit = parseInt(req.query.limit) || 10; //parse limit default 10
+    const paginatedResults = paginateResult(page, limit, response);
+    res.status(200).json(paginatedResults);
   } catch (error) {
     console.error(error);
     res.status(500).json({ msg: error.message });
