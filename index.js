@@ -6,7 +6,7 @@ import sequelizeStore from "connect-session-sequelize";
 import Movierouter from "./routes/MovieRoute.js";
 import UserRouter from "./routes/UserRouter.js";
 import AuthRouter from "./routes/AuthRoute.js";
-import swaggerJsdoc from "swagger-jsdoc";
+import swaggerDoc from "./swagger.js";
 import swaggerUi from "swagger-ui-express";
 import morgan from "morgan";
 dotenv.config();
@@ -23,26 +23,7 @@ const store = new sessionStore({
 });
 
 //Make Documentation With Swagger
-const options = {
-  definition: {
-    openapi: "3.0.0",
-    info: {
-      title: "Express API with Swagger",
-      version: "1.0.0",
-      description:
-        "this is a simple CRUD APP With Restful API with Express and documented by Swagger",
-    },
-    servers: [
-      {
-        url: "http://localhost:2070",
-      },
-    ],
-  },
-  apis: ["./routes/*"],
-};
-
-const specs = swaggerJsdoc(options);
-app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(specs));
+app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerDoc));
 
 //Database Check
 // try {

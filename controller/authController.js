@@ -96,15 +96,23 @@ export const me = async (req, res) => {
   }
 };
 
-//LogOUT For Destroy Session
-export const logout = (req, res) => {
+//LogOut For Destroy Session
+export const logout = async (req, res) => {
   try {
-    req.session.destroy((err) => {
-      if (err)
-        return res.status(400).json({ msg: "Log Out Failed , Welcome To SAO" });
-      res.status(200).json({ msg: "Log Out Success" });
+    await new Promise((resolve, reject) => {
+      req.session.destroy((err) => {
+        if (err) {
+          reject(err);
+        } else {
+          resolve();
+        }
+      });
     });
+
+    res.status(200).json({ msg: "Log Out Success" });
   } catch (error) {
+    console.error("Error occurred during logout:", error);
     res.status(500).json({ msg: "Internal Server Error" });
   }
 };
+
